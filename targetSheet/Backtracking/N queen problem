@@ -1,0 +1,99 @@
+// { Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    bool safe(int row,int col,int chess[][11],int n)
+    {
+        // left diagonal
+        for(int i=row-1,j=col-1;i>=0 and j>=0;i--,j--)
+        {
+            if(chess[i][j]==1){
+                    return false;
+            }
+        }
+        // right diagonal
+        for(int i=row-1,j=col+1;i>=0 and j<n;i--,j++)
+        {
+                if(chess[i][j]==1)
+                    return false;
+            
+        }
+        // backward 
+        for(int i=row-1;i>=0;i--)
+        {
+            if(chess[i][col]==1)
+                return false;
+        }
+        return true;
+    }
+    void solve(int chess[][11],int n,int row,vector<vector<int>>&ans)
+    {
+        if(row==n)
+        {
+            vector<int>temp;
+            for(int j=0;j<n;j++)
+            {
+                for(int i=0;i<n;i++)
+                {
+                    if(chess[j][i]==1)
+                    {
+                        temp.push_back(i+1);
+                    }
+                }
+            }
+            ans.push_back(temp);
+            return;
+        }
+        for(int col=0;col<n;col++)
+        {
+            if(safe(row,col,chess,n)==true)
+            {
+                chess[row][col]=1;
+                solve(chess,n,row+1,ans);
+                chess[row][col]=0;
+            }
+            
+        }
+    }
+    vector<vector<int>> nQueen(int n) {
+        // code here
+        int chess[11][11];
+        memset(chess,-1,sizeof(chess));
+        vector<vector<int>>ans;
+        solve(chess,n,0,ans);
+        return ans;
+    }
+};
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        
+        Solution ob;
+        vector<vector<int>> ans = ob.nQueen(n);
+        if(ans.size() == 0)
+            cout<<-1<<"\n";
+        else {
+            for(int i = 0;i < ans.size();i++){
+                cout<<"[";
+                for(int u: ans[i])
+                    cout<<u<<" ";
+                cout<<"] ";
+            }
+            cout<<endl;
+        }
+    }
+    return 0;
+}  // } Driver Code Ends
