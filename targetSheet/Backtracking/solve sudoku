@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void print(int arr[][9])
+{
+    for(int i=0;i<9;i++)
+    {
+        for(int j=0;j<9;j++)
+        {
+            cout<<arr[i][j]<<" ";
+        }
+        cout<<"\n";
+    }
+}
+
+bool valid(int po,int ni,int nj,int arr[][9])
+{
+    // row
+    for(int j=0;j<9;j++)
+    {
+        if(arr[ni][j]==po)
+            return false;
+    }
+    
+    // column
+    for(int i=0;i<9;i++)
+    {
+        if(arr[i][nj]==po)
+            return false;
+    }
+    // sub matrix
+    int si=3*(ni/3);
+    int sj=3*(nj/3);
+    for(int i=0;i<3;i++)
+    {
+        for(int j=0;j<3;j++)
+        {
+            if(arr[si+i][sj+j]==po)
+                return false;
+        }
+    }
+    
+    return true;
+}
+void sudoku(int arr[][9],int i,int j)
+{
+    if(i==9)
+    {
+        print(arr);
+        return;
+    }
+    int ni,nj;
+    if(j==8)
+    {
+        ni=i+1;
+        nj=0;
+    }
+    else
+    {
+        nj=j+1;
+        ni=i;
+    }
+    
+    if(arr[i][j]==0)
+    {
+        for(int po=1;po<=9;po++)
+        {
+            if(valid(po,i,j,arr)==true)
+            {
+                arr[i][j]=po;
+                sudoku(arr,ni,nj);
+                arr[i][j]=0;
+            }
+        }    
+    }
+    else
+    {
+        sudoku(arr,ni,nj);
+    }
+}
+int main()
+{
+    int arr[9][9];
+    for(int i=0;i<9;i++)
+    {
+        for(int j=0;j<9;j++)
+            cin>>arr[i][j];
+    }
+    sudoku(arr,0,0);
+}
