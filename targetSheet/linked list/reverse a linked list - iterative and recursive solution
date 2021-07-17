@@ -1,0 +1,45 @@
+class Solution
+{
+    public:
+    void reverse(Node*&head,Node*temp)
+    {
+        if(temp->next==NULL)
+        {
+            head=temp;
+            return;
+        }
+        reverse(head,temp->next);
+        Node*q=temp->next;
+        q->next=temp;
+        temp->next=NULL;
+        
+    }
+    //Function to reverse a linked list.
+    struct Node* reverseList(struct Node *head)
+    {
+        // iterative approach
+        
+        // if(head==NULL) return head;
+        // if(head->next==NULL) return head;
+        // Node*prev,*curr,*forward;
+        // prev=NULL;
+        // curr=head;
+        // while(curr!=NULL)
+        // {
+        //   forward = curr->next;
+        //   curr->next=prev;
+        //   prev=curr;
+        //   curr=forward;
+        // }
+        // head=prev;
+        // return head;
+        
+        // recursive approach
+        if(head==NULL) return head;
+        Node*temp=head;
+        reverse(head,temp);
+        return head;
+    }
+    
+    
+};
