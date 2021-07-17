@@ -1,0 +1,87 @@
+/* node for linked list:
+
+struct Node {
+    int data;
+    struct Node* next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+*/
+
+class Solution
+{
+    public:
+     struct Node* reverseList(struct Node *head)
+    {
+        // iterative approach
+        
+        if(head==NULL) return head;
+        if(head->next==NULL) return head;
+        Node*prev,*curr,*forward;
+        prev=NULL;
+        curr=head;
+        while(curr!=NULL)
+        {
+          forward = curr->next;
+          curr->next=prev;
+          prev=curr;
+          curr=forward;
+        }
+        head=prev;
+        return head;
+        
+       
+    }
+     Node* insertHead(Node*head,int data)
+     {
+         if(head==NULL)
+         {
+             Node*node=new Node(data);
+             head=node;
+             return head;
+         }
+         else
+         {
+             Node*node=new Node(data);
+             node->next=head;
+             head=node;
+             return head;
+         }
+     }
+    //Function to add two numbers represented by linked list.
+    struct Node* addTwoLists(struct Node* first, struct Node* second)
+    {
+        // code here
+       Node*h1=reverseList(first); 
+       Node*h2=reverseList(second); 
+       int sum = 0;
+       int carry=0;
+       Node*resList=NULL;
+       while(h1!=NULL or h2!=NULL)
+       {
+           sum=carry;
+           if(h1!=NULL)
+           {
+               sum+=h1->data;
+               h1=h1->next;
+           }
+           if(h2)
+           {
+               sum+=h2->data;
+               h2=h2->next;
+           }
+           carry=sum/10;
+           sum=sum%10;
+           resList=insertHead(resList,sum);
+       }
+    if(carry!=0)
+    {
+        resList=insertHead(resList,carry);
+        
+    }
+    return resList;
+    }
+};
