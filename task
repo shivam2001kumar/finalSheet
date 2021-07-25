@@ -1,0 +1,205 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+template<typename T>
+class vectors{
+   T x,y,z;
+   public:
+   vectors()
+   {
+       x=0;
+       y=0;
+       z=0;
+   }
+   vectors(T x,T y,T z)
+   {
+       this->x=x;
+       this->y=y;
+       this->z=z;
+
+   } 
+   
+   
+   void display(T i,T j,T k)
+   {
+       cout<<i<<"i";
+       if(j>=0) cout<<"+";
+       cout<<j<<"j";
+       if(k>=0) cout<<"+";
+       cout<<k<<"k";
+   }
+   
+   void addition(vectors a,vectors b)
+   {
+       this->x = a.x+b.x;
+       this->y = a.y+b.y;
+       this->z = a.z+b.z;
+    
+    display(this->x,this->y,this->z);
+   } 
+   
+   void subtraction(vectors a,vectors b)
+   {
+       this->x = a.x-b.x;
+       this->y = a.y-b.y;
+       this->z = a.z-b.z;
+       display(this->x,this->y,this->z);
+   }
+   
+   T dotProduct(vectors a , vectors b)
+   {
+       this->x = a.x*b.x;        
+       this->y = a.y*b.y;        
+       this->z = a.z*b.z;        
+    //    cout<<(this->x+this->y+this->z);
+       return (this->x+this->y+this->z);
+   }
+   
+   
+   void distance(vectors a,vectors b)
+   {
+       cout<<sqrt(pow(b.x-a.x,2)+pow(b.y-a.y,2)+pow(b.z-a.z,2));
+   }
+
+   
+   T magnitude()
+   {
+       return sqrt(this->x*this->x + this->y*this->y + this->z*this->z);
+   } 
+   
+   void crossProduct(vectors a, vectors b)
+   {
+       this->x = (a.y*b.z - a.z*b.y);
+       this->y = (a.z*b.x - a.x*b.z );
+       this->z = (a.x*b.y - a.y*b.x);
+       display(this->x,this->y,this->z);
+   }
+   
+   void normalVector(vectors a)
+   {
+       T mg=magnitude();
+       x=(a.x/mg);
+       y=(a.y/mg);
+       z=(a.z/mg);
+        display(x,y,z);
+   }
+  
+  
+  // scaling 
+  void scaleVector()
+  { 
+      T x1,y1,x2,y2,sx,sy;
+      cout<<"Enter X coordinates of line(both end) : ";
+      cin>>x1>>x2;
+      cout<<"\nEnter Y coordinates of line(both end) : ";
+      cin>>y1>>y2;
+      cout<<"\nEnter Scaling factor along X : ";
+      cin>>sx;
+      cout<<"\nEnter scaling factor along Y : ";
+      cin>>sy;
+      
+      cout<<"\n original  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]";
+      x1*=sx;
+      x2*=sx;
+      y1*=sy;
+      y2*=sy;
+      cout<<"\n New  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]";
+    
+  }
+  
+  // translation of Vector
+  void translationVector()
+  {
+      T x1,y1,x2,y2,dx,dy;
+      cout<<"Enter X coordinates of line(both end) : ";
+      cin>>x1>>x2;
+      cout<<"\nEnter Y coordinates of line(both end) : ";
+      cin>>y1>>y2;
+      cout<<"\nEnter translation factor along X : ";
+      cin>>dx;
+      cout<<"\nEnter Translation factor along Y : ";
+      cin>>dy;
+      
+      cout<<"\n original  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]";
+      x1+=dx;
+      x2+=dx;
+      y1+=dy;
+      y2+=dy;
+      cout<<"\n New  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]";
+    
+  }
+  
+  void rotationVector()
+  {
+    T r,x,y,A,B;  
+    cout<<"\nEnter x coordinate : ";
+    cin>>x;
+    cout<<"\nEnter Y coordinate : ";
+    cin>>y;
+    cout<<"\n Enter Angle(degree) A makes with +ve X axis : ";
+    cin>>A;
+    cout<<"\nEnter Rotating Angle(degree) : ";
+    cin>>B;
+    cout<<"\n Original  coordinates : ["<<x<<","<<y<<"]" ;
+    r=sqrt(x*x+y*y);
+    // converting degree to radian
+    T resAngle,newX,newY;
+    resAngle = (A+B)*3.14/180;
+    newX=r*cos(resAngle);
+    newY=r*sin(resAngle);
+    cout<<"\n New  coordinates : ["<<newX<<","<<newY<<"]" ;
+  }
+
+  void directionTwoVectors(vectors A,vectors B)
+  {
+    T angle = acos(dotProduct(A,B)/(A.magnitude()*B.magnitude()));
+    // cout<<dotProduct(A,B)<<"\n"<<(A.magnitude()*B.magnitude());
+    cout<<"Direction : "<<angle<<" radian";
+  }
+
+};
+template<typename T>
+void view(T i,T j,T k)
+   {
+       cout<<i<<"i";
+       if(j>=0) cout<<"+";
+       cout<<j<<"j";
+       if(k>=0) cout<<"+";
+       cout<<k<<"k";
+   }
+int main()
+{
+    cout<<"Enter in format a i + b j + c k\n";
+    float a1,a2,b1,b2,c1,c2;
+    cout<<"Vector A : ";
+    cin>>a1>>b1>>c1;
+    cout<<"\nVector B : ";
+    cin>>a2>>b2>>c2;
+    cout<<"\nVector A : ";
+    view(a1,b1,c1);
+    cout<<"\nVector B : ";
+    view(a2,b2,c2);
+    cout<<"\n\n";
+    vectors<float> A(a1,b1,c1);
+    vectors<float> B(a2,b2,c2);
+    // vectors<float> ob;
+    // cout<<"Addition -> ";
+    // ob.addition(A,B);
+    // cout<<"\nSubtraction -> ";
+    // ob.subtraction(A,B);
+    // cout<<"\nScalar/Dot Product -> ";
+    // cout<<ob.dotProduct(A,B);   
+    // cout<<"\nVector/Cross Product -> ";
+    // ob.crossProduct(A,B);
+    // cout<<"\nmagnitude -> ";
+    // cout<<A.magnitude();
+    // cout<<"\nNormal Vector -> ";
+    // ob.normalVector(A); cout<<"\n";
+    // cout<<"Distance between vectors -> ";
+    // ob.distance(A,B);
+    vectors<float> ob;
+    // ob.rotationVector();
+    // ob.translationVector();
+    // ob.scaleVector();
+    ob.directionTwoVectors(A,B);
+}
