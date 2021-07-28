@@ -4,19 +4,32 @@ using namespace std;
 template<typename T>
 class vectors{
    T x,y,z;
+   T mat[3][3]; 
    public:
    vectors()
    {
        x=0;
        y=0;
        z=0;
+       memset(mat,0,sizeof(mat));
+       
+
    }
    vectors(T x,T y,T z)
    {
        this->x=x;
        this->y=y;
        this->z=z;
-
+       memset(mat,0,sizeof(mat));
+   }
+   vectors(T arr[3][3])
+   {
+        x=0;
+       y=0;
+       z=0;
+       for(int i=0;i<3;i++)
+        for(int j=0;j<3;j++)
+            mat[i][j]=arr[i][j];
    } 
    
    
@@ -84,10 +97,12 @@ class vectors{
         display(x,y,z);
    }
   
+
   
   // scaling 
   void scaleVector()
   { 
+      cout<<"\n----- Scaling of vector ------\n";
       T x1,y1,x2,y2,sx,sy;
       cout<<"Enter X coordinates of line(both end) : ";
       cin>>x1>>x2;
@@ -98,20 +113,21 @@ class vectors{
       cout<<"\nEnter scaling factor along Y : ";
       cin>>sy;
       
-      cout<<"\n original  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]";
+      cout<<"\n original  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]\n";
       x1*=sx;
       x2*=sx;
       y1*=sy;
       y2*=sy;
-      cout<<"\n New  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]";
+      cout<<"\n New  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]\n";
     
   }
   
   // translation of Vector
   void translationVector()
   {
+      cout<<"\n----- Translation of vector ------\n";
       T x1,y1,x2,y2,dx,dy;
-      cout<<"Enter X coordinates of line(both end) : ";
+      cout<<"\nEnter X coordinates of line(both end) : ";
       cin>>x1>>x2;
       cout<<"\nEnter Y coordinates of line(both end) : ";
       cin>>y1>>y2;
@@ -120,17 +136,18 @@ class vectors{
       cout<<"\nEnter Translation factor along Y : ";
       cin>>dy;
       
-      cout<<"\n original  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]";
+      cout<<"\n original  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]\n";
       x1+=dx;
       x2+=dx;
       y1+=dy;
       y2+=dy;
-      cout<<"\n New  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]";
+      cout<<"\n New  coordinates : ["<<x1<<","<<y1<<"] and ["<<x2<<","<<y2<<"]\n";
     
   }
   
   void rotationVector()
   {
+      cout<<"\n----- Rotation of vector ------\n";
     T r,x,y,A,B;  
     cout<<"\nEnter x coordinate : ";
     cin>>x;
@@ -140,22 +157,148 @@ class vectors{
     cin>>A;
     cout<<"\nEnter Rotating Angle(degree) : ";
     cin>>B;
-    cout<<"\n Original  coordinates : ["<<x<<","<<y<<"]" ;
+    cout<<"\n Original  coordinates : ["<<x<<","<<y<<"]\n" ;
     r=sqrt(x*x+y*y);
     // converting degree to radian
     T resAngle,newX,newY;
     resAngle = (A+B)*3.14/180;
     newX=r*cos(resAngle);
     newY=r*sin(resAngle);
-    cout<<"\n New  coordinates : ["<<newX<<","<<newY<<"]" ;
+    cout<<"\n New  coordinates : ["<<newX<<","<<newY<<"]\n" ;
   }
 
   void directionTwoVectors(vectors A,vectors B)
   {
+      cout<<"\n----- Direction between two vectors ------\n";
     T angle = acos(dotProduct(A,B)/(A.magnitude()*B.magnitude()));
-    // cout<<dotProduct(A,B)<<"\n"<<(A.magnitude()*B.magnitude());
-    cout<<"Direction : "<<angle<<" radian";
+    
+    cout<<"\nDirection : "<<angle<<" radian\n";
   }
+
+  // Matrix operation
+
+  void displayMatrix()
+   {
+       cout<<"\n";
+       for(int i=0;i<3;i++)
+       {
+           for(int j=0;j<3;j++)
+           {
+               cout<<mat[i][j]<<" ";
+
+           }
+           cout<<"\n";
+       }
+   }
+  vectors addMatrix(vectors<T> A)
+  {
+      vectors res;
+      for(int i=0;i<3;i++)
+      {
+          for(int j=0;j<3;j++)
+          {
+              res.mat[i][j]=this->mat[i][j]+A.mat[i][j];
+          }
+      }
+      return res;
+  }
+
+  vectors subtractMatrix(vectors<T> A)
+  {
+      vectors res;
+      for(int i=0;i<3;i++)
+      {
+          for(int j=0;j<3;j++)
+          {
+              res.mat[i][j]=mat[i][j]-A.mat[i][j];
+          }
+      }
+      return res;
+  }
+
+  vectors zeroMatrix()
+  {
+      vectors res;
+      memset(res.mat,0,sizeof(res.mat));
+      return res;
+  }
+
+  vectors Transpose()
+  {
+     vectors  res;
+     for(int i=0;i<3;i++)
+     for(int j=0;j<3;j++)
+        res.mat[i][j]=this->mat[i][j];
+
+      for(int i=0;i<3;i++)
+      {
+          for(int j=i;j<3;j++)
+            swap(res.mat[i][j],res.mat[j][i]);
+      }
+    return res;
+      
+  }
+
+  vectors multiplyMatrix(vectors<T> A)
+  {
+      int r1 = 3,c2=3,c1=3;
+      vectors res;
+      
+      for(int i=0;i<r1;i++)
+      {
+          for(int  j=0;j<c2;j++)
+          {
+              for(int k=0;k<c1;k++)
+              {
+                  res.mat[i][j]+=this->mat[i][k]*A.mat[k][j];
+              }
+          }
+      }
+      return res;
+      
+  }
+
+  T determinant(){
+		T v1 = mat[0][0] * (mat[2][2] * mat[1][1] -
+        	mat[2][1] * mat[1][2]);
+    	T v2 = mat[1][0] * (mat[2][2] * mat[0][1] -
+        	mat[2][1] * mat[0][2]);
+    	T v3 = mat[2][0] * (mat[1][2] * mat[0][1] -
+        	mat[1][1] * mat[0][2]);
+    	return v1 - v2 + v3;
+	}
+
+  vectors adjMatrix()
+  {
+       vectors res;
+        res.mat[0][0] = mat[2][2] * mat[1][1] - mat[2][1] * mat[1][2];
+	    res.mat[0][1] = mat[2][1] * mat[0][2] - mat[2][2] * mat[0][1];
+	    res.mat[0][2] = mat[1][2] * mat[0][1] - mat[1][1] * mat[0][2];
+	    res.mat[1][0] = mat[2][0] * mat[1][2] - mat[2][2] * mat[1][0];
+	    res.mat[1][1] = mat[2][2] * mat[0][0] -mat[2][0] * mat[0][2];
+	    res.mat[1][2] = mat[1][0] * mat[0][2] -mat[1][2] * mat[0][0];
+	    res.mat[2][0] = mat[2][1] * mat[1][0] -mat[2][0] * mat[1][1];
+	    res.mat[2][1] = mat[2][0] * mat[0][1] -mat[2][1] * mat[0][0];
+	    res.mat[2][2] = mat[1][1] * mat[0][0] -mat[1][0] * mat[0][1];
+	    return res;
+	
+  }
+  vectors multiply(T x)
+  {
+      vectors res;
+      for(int i=0;i<3;i++)
+      for(int j=0;j<3;j++)
+        res.mat[i][j]=mat[i][j]*x;
+    return res;
+  }  
+
+  vectors inverse(){
+		
+	    return this->adjMatrix().multiply(1 / this->determinant());
+	}
+  
+
+
 
 };
 template<typename T>
@@ -197,9 +340,60 @@ int main()
     // ob.normalVector(A); cout<<"\n";
     // cout<<"Distance between vectors -> ";
     // ob.distance(A,B);
+
     vectors<float> ob;
-    // ob.rotationVector();
-    // ob.translationVector();
-    // ob.scaleVector();
+    ob.rotationVector();
+    ob.translationVector();
+    ob.scaleVector();
     ob.directionTwoVectors(A,B);
+
+
+// cout<<"\n\n-----------------Matrix Operation------------------------\n";
+//     //matrix Operation
+//     float a[3][3],b[3][3];
+//     cout<<"\nEnter matrix A\n";
+//     for(int i=0;i<3;i++)
+//     for(int j=0;j<3;j++)
+//         cin>>a[i][j];
+
+//     cout<<"\nEnter matrix B\n";
+//     for(int i=0;i<3;i++)
+//     for(int j=0;j<3;j++)
+//         cin>>b[i][j];
+
+//     vectors<float> A(a);
+//     vectors<float> B(b);
+
+//     vectors<float> res=A.addMatrix(B);
+//     cout<<"\n-----Addition matrix-------\n";
+//     res.displayMatrix();
+
+//     res=A.subtractMatrix(B);
+//     cout<<"\n-----Subtract matrix-------\n";
+//     res.displayMatrix();
+
+//     res=A.multiplyMatrix(B);
+//     cout<<"\n-----multiplication matrix-------\n";
+//     res.displayMatrix();
+
+//     float x =A.determinant();
+//     cout<<"\n-----Determinant of  matrix-------\n";
+//     cout<<x;
+
+
+//     res=A.adjMatrix();
+//     cout<<"\n-----Adjacency of matrix A -------\n";
+//     res.displayMatrix();
+
+//     res=A.inverse();
+//     cout<<"\n-----Inverse of matrix A -------\n";
+//     res.displayMatrix();
+
+//     res=A.multiply(4);
+//     cout<<"\n-----Add constant to matrix A-------\n";
+//     res.displayMatrix();
+
+//     res=A.Transpose();
+//     cout<<"\n-----Transpose of matrix A-------\n";
+//     res.displayMatrix();
 }
