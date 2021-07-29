@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int> > ans;
+        vector<int>frow;
+        frow.push_back(1);
+        ans.push_back(frow);
+        for(int i=1;i<numRows;i++)
+        {
+            vector<int>prev;
+            prev=ans[i-1];
+            vector<int>curr;
+            curr.push_back(1);
+            for(int j=1;j<i;j++)
+            {
+                curr.push_back(prev[j-1]+prev[j]);
+            }
+            curr.push_back(1);
+            ans.push_back(curr);
+            
+        }
+        return ans;
+    }
+};
