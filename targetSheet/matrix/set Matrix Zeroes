@@ -1,0 +1,112 @@
+// set matrix zero
+// Approaches:
+// 1>. Brute force solution O((nxm) x (n+m))
+// 2>. Using extra Space
+// 3>. Without extra space - optimal sol
+
+
+// Method 2 solution
+void modifyMatrix(bool mat[R][C]) 
+{ 
+    bool row[R]; 
+    bool col[C]; 
+  
+    int i, j; 
+      
+    /* Initialize all values of row[] as 0 */
+    for (i = 0; i < R; i++) 
+    { 
+    row[i] = 0; 
+    } 
+  
+    /* Initialize all values of col[] as 0 */
+    for (i = 0; i < C; i++) 
+    { 
+    col[i] = 0; 
+    } 
+  
+    // Store the rows and columns to be marked as 
+    // 1 in row[] and col[] arrays respectively 
+    for (i = 0; i < R; i++) 
+    { 
+        for (j = 0; j < C; j++) 
+        { 
+            if (mat[i][j] == 1) 
+            { 
+                row[i] = 1; 
+                col[j] = 1; 
+            } 
+        } 
+    } 
+  
+    // Modify the input matrix mat[] using the  
+    // above constructed row[] and col[] arrays 
+    for (i = 0; i < R; i++) 
+    { 
+        for (j = 0; j < C; j++) 
+        { 
+            if ( row[i] == 1 || col[j] == 1 ) 
+            { 
+                mat[i][j] = 1; 
+            } 
+        } 
+    } 
+} 
+
+// method 3 Optimal solution
+
+class Solution
+{   
+public:
+    void booleanMatrix(vector<vector<int> > &matrix)
+    {
+        // check if first row or column contains 1
+        int row=0;
+        int col=0;
+        for(int j=0;j<matrix[0].size();j++)
+        {
+            if(matrix[0][j]==1) row=1;
+        }
+        for(int i=0;i<matrix.size();i++)
+        {
+            if(matrix[i][0]==1) col=1;
+        }
+        
+        // work for remaning matrix
+        for(int i=1;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[i].size();j++)
+            {
+                if(matrix[i][j]==1)
+                {
+                    matrix[0][j]=1; // make 1st row same column element to 1
+                    matrix[i][0]=1; // make 1st col same row element to 1
+                }
+            }
+        }
+        // mark complete row and col(except 1st row and col) with any element as 1 in it
+        for(int i=1;i<matrix.size();i++)
+        {
+            for(int j=1;j<matrix[i].size();j++)
+            {
+                if(matrix[0][j]==1 || matrix[i][0]==1)
+                    matrix[i][j]=1;
+            }
+        }
+        
+        // do for first row and column by checking row and col if equal to 1
+        
+        if(row==1)
+        {
+            for(int j=0;j<matrix[0].size();j++)
+                matrix[0][j]=1;
+        }
+        if(col==1)
+        {
+            for(int i=0;i<matrix.size();i++)
+                matrix[i][0]=1;
+        }
+        
+        
+    }
+};
