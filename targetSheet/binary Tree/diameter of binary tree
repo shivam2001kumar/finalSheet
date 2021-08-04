@@ -1,0 +1,19 @@
+class Solution {
+  public: int ma;
+    // Function to return the diameter of a Binary Tree.
+    int solve(Node*root)
+    {
+        if(!root) return 0;
+        int l = solve(root->left);
+        int r = solve(root->right);
+        ma=max(ma,l+r+1);
+        return (max(l,r)+1);
+    }
+    int diameter(Node* root) {
+        // Your code here
+        ma=INT_MIN;
+        if(root==NULL) return 0;
+        int x = solve(root);
+        return ma;
+    }
+};
