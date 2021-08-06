@@ -1,0 +1,15 @@
+int getMiddle(Node *head)
+{
+   // Your code here
+   if(head==NULL) return -1;
+   Node*fast=head;
+   Node*slow=head;
+   int l=1;
+   while(fast and fast->next)
+   {
+       fast=fast->next->next;
+       slow=slow->next;
+       
+   }
+  return slow->data;
+}
