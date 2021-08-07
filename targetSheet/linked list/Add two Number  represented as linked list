@@ -1,0 +1,60 @@
+class Solution
+{
+    public:
+    Node* insertAtHead(Node*head,int data)
+    {
+        Node*temp=new Node(data);
+        if(head==NULL)
+        {
+            head=temp;
+            return head;
+        }
+        temp->next=head;
+        head=temp;
+        return head;
+    }
+    Node* reverse(Node*head)
+    {
+        if(head==NULL or head->next==NULL) return head;
+        Node*prev=NULL,*cur=head,*next;
+        while(cur)
+        {
+            next=cur->next;
+            cur->next=prev;
+            prev=cur;
+            cur=next;
+        }
+        head=prev;
+        return head;
+    }
+    
+    //Function to add two numbers represented by linked list.
+    struct Node* addTwoLists(struct Node* first, struct Node* second)
+    {
+        // code here
+        Node* res=NULL;
+        first=reverse(first);
+        second=reverse(second);
+        int sum=0,carry=0;
+        while(first or second)
+        {
+            sum=carry;
+            if(first)
+            {
+                sum+=first->data;
+                first=first->next;
+            }
+            if(second)
+            {
+                sum+=second->data;
+                second=second->next;
+            }
+            carry=sum/10;
+            sum=sum%10;
+            res=insertAtHead(res,sum);
+        }
+        if(carry!=0)
+            res=insertAtHead(res,carry);
+        return res;
+    }
+};
