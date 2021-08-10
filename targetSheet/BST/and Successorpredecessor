@@ -1,0 +1,46 @@
+Node* findMin(Node*root)
+{
+    if(root==NULL) return NULL;
+    Node*cur=root;
+    while(cur->left)
+    {
+        cur=cur->left;
+    }
+    return cur;
+}
+
+Node* findMax(Node*root)
+{
+    if(root==NULL) return NULL;
+    Node*cur=root;
+    while(cur->right)
+    {
+        cur=cur->right;
+    }
+    return cur;
+}
+void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+{
+
+// Your code goes here
+    if(root==NULL) return;
+    if(root->key==key)
+    {
+        if(root->left)
+        pre=findMax(root->left);
+        if(root->right)
+        suc=findMin(root->right);
+    }
+    else if(key<root->key)
+    {
+        suc=root;
+        findPreSuc(root->left,pre,suc,key);
+    }
+    else 
+    {
+        pre=root;
+        findPreSuc(root->right,pre,suc,key);
+    }
+
+
+}
