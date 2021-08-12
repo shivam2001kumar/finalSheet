@@ -1,0 +1,32 @@
+Node* mergeList(Node*root1,Node*root2)
+{
+    Node*temp = new Node(0);
+    Node*res = temp;
+    while(root1 and root2)
+    {
+        if(root1->data < root2->data)
+        {
+            res->bottom=root1;
+            res=res->bottom;
+            root1=root1->bottom;
+        }
+        else
+        {
+            res->bottom=root2;
+            res=res->bottom;
+            root2=root2->bottom;
+        }
+    }
+    if(root1) res->bottom=root1;
+        else res->bottom=root2;
+    return temp->bottom;
+}
+Node *flatten(Node *root)
+{
+   // Your code here
+   if(root==NULL or root->next==NULL) return root;
+   root->next=flatten(root->next);
+   root=mergeList(root,root->next);
+   return root;
+}
+
